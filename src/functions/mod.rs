@@ -1,5 +1,13 @@
+pub mod cat;
 pub mod cd;
 pub mod clear;
 pub mod command;
 pub mod echo;
+pub mod jobs;
+pub mod kill;
+pub mod ls;
+pub mod mkdir;
 pub mod pwd;
+pub mod rm;
+pub mod rmdir;
+pub mod touch;
