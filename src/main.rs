@@ -12,10 +12,15 @@ use functions::mkdir::mkdir_process;
 use functions::pwd::pwd_process;
 use functions::rm::rm_process;
 use functions::rmdir::rmdir_process;
+use functions::scheduler::add_process::add_process;
+use functions::scheduler::set_scheduler::set_scheduler;
+use functions::scheduler::start_scheduler::start_scheduler;
+use functions::scheduler::SchedulerManager;
 use functions::touch::touch_process;
 
 fn main() {
     let mut job_manager = JobManager::new();
+    let mut scheduler_manager = SchedulerManager::new();
 
     loop {
         print!("> ");
@@ -40,22 +45,28 @@ fn main() {
             let mut parts = command.trim().split_whitespace();
             let command = parts.next().unwrap();
             let args = parts;
+            // args consumed by command handlers below
 
             match command {
+                "addproc" => add_process(&mut scheduler_manager, args),
                 "bg" => job_manager.bg_job(args),
                 "cat" => cat_process(args),
                 "cd" => cd_process(&mut args.peekable(), &mut previous_command),
                 "clear" => clear_process(),
+                "clearproc" => scheduler_manager.clear_processes(),
                 "echo" => echoing(args),
                 "exit" => return,
                 "fg" => job_manager.fg_job(args),
                 "jobs" => job_manager.list_jobs(),
                 "kill" => kill_process(args),
+                "listproc" => scheduler_manager.list_processes(),
                 "ls" => ls_process(args),
                 "mkdir" => mkdir_process(args),
                 "pwd" => pwd_process(),
                 "rm" => rm_process(args),
                 "rmdir" => rmdir_process(args),
+                "setscheduler" => set_scheduler(&mut scheduler_manager, args),
+                "startscheduler" => start_scheduler(&mut scheduler_manager),
                 "touch" => touch_process(args),
                 command => command_functions(
                     command,

@@ -10,4 +10,5 @@ pub mod mkdir;
 pub mod pwd;
 pub mod rm;
 pub mod rmdir;
+pub mod scheduler;
 pub mod touch;

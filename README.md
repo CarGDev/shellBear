@@ -42,6 +42,37 @@ sleep 5 &
 ### External Commands
 Any command not listed above is executed via the system PATH (e.g., `grep`, `sort`, `find`, `git`).
 
+### Process Scheduling
+
+Simulate process scheduling algorithms using timer-based execution:
+
+| Command | Description |
+|---------|-------------|
+| `setscheduler rr <quantum_ms>` | Configure Round-Robin with time slice (ms) |
+| `setscheduler priority` | Configure Priority-Based scheduling |
+| `addproc <name> <duration_ms> [priority]` | Add a simulated process to queue |
+| `startscheduler` | Execute the scheduler (blocks until completion) |
+| `listproc` | List queued processes |
+| `clearproc` | Clear all processes from queue |
+
+**Round-Robin Example:**
+```
+> setscheduler rr 100
+> addproc Process1 200
+> addproc Process2 300
+> addproc Process3 100
+> startscheduler
+```
+
+**Priority-Based Example:**
+```
+> setscheduler priority
+> addproc LowPrio 200 10
+> addproc MidPrio 200 50
+> addproc HighPrio 200 100
+> startscheduler
+```
+
 ## Requirements
 
 - Rust 2024 edition
@@ -107,5 +138,14 @@ src/
     ├── pwd.rs               # pwd built-in
     ├── rm.rs                # rm built-in
     ├── rmdir.rs             # rmdir built-in
+    ├── scheduler/
+    │   ├── mod.rs           # SchedulerManager, SchedulingAlgorithm
+    │   ├── process.rs       # SimulatedProcess struct
+    │   ├── statistics.rs    # SchedulerStats, event logging
+    │   ├── round_robin.rs   # Round-Robin algorithm
+    │   ├── priority.rs      # Priority-Based algorithm
+    │   ├── set_scheduler.rs # setscheduler command
+    │   ├── add_process.rs   # addproc command
+    │   └── start_scheduler.rs # startscheduler command
     └── touch.rs             # touch built-in
 ```
