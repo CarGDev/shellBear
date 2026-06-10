@@ -10,5 +10,7 @@ pub mod mkdir;
 pub mod pwd;
 pub mod rm;
 pub mod rmdir;
+pub mod memory;
 pub mod scheduler;
+pub mod sync;
 pub mod touch;
